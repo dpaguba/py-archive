@@ -4,10 +4,8 @@ from datetime import datetime
 from pytz import timezone
 from pytz.exceptions import UnknownTimeZoneError
 import telegram
-from telegram.emoji import Emoji
 import tweepy
 from tweepy.auth import OAuthHandler
-from tweepy.error import TweepError
  
 from models import Subscription
 from util import with_touched_chat, escape_markdown, markdown_twitter_usernames
@@ -46,7 +44,7 @@ Here's the commands:
 This bot is being worked on, so it may break sometimes. Contact @franciscod if you want {}
 """.format(
             TIMEZONE_LIST_URL,
-            Emoji.SMILING_FACE_WITH_OPEN_MOUTH_AND_SMILING_EYES),
+            telegram.emoji.SMILING_FACE_WITH_OPEN_MOUTH_AND_SMILING_EYES),
                   disable_web_page_preview=True,
                   parse_mode=telegram.ParseMode.MARKDOWN)
  
@@ -252,7 +250,7 @@ def cmd_verify(bot, update, args, chat):
     auth.request_token = json.loads(chat.twitter_request_token)
     try:
         auth.get_access_token(verifier_code)
-    except TweepError:
+    except tweepy.error:
         bot.reply(update, "Invalid verifier code. Use /auth again")
         return
     chat.twitter_token = auth.access_token
