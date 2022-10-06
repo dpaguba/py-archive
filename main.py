@@ -46,30 +46,32 @@ if __name__ == "__main__":
 
     logging.basicConfig(
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.WARNING)
-        
-    logging.getLogger(TwitterForwarderBot.__name.__).setLevel (logging. DEBUG)
-    logging.getLogger(FetchAndSendTweetsJob.__name__).setLevel (logging. DEBUG)
-    
+
+    logging.getLogger(TwitterForwarderBot.__name.__).setLevel(logging. DEBUG)
+    logging.getLogger(FetchAndSendTweetsJob.__name__).setLevel(logging. DEBUG)
+
     # initialize Twitter API
     try:
-        auth = tweepy.OuthHandler(env['TWITTER_CONSUMER_KEY'], env['TWITTER_CONSUMER_SECRET' ])
+        auth = tweepy.OuthHandler(
+            env['TWITTER_CONSUMER_KEY'], env['TWITTER_CONSUMER_SECRET'])
     except KeyError as exc:
-        var = exc.args [0]
-        print( ("The required configuration variable {} is missing. "
-                "Please review secrets.pv.").format(var))
-        exit (123)
+        var = exc.args[0]
+        print(("The required configuration variable {} is missing. "
+               "Please review secrets.pv.").format(var))
+        exit(123)
 
     try:
-        auth. set_access_token (env ['TWITTER_ACCESS_TOKEN'], env['TWITTER_ACCESS_TOKEN_SECRET'])
+        auth. set_access_token(
+            env['TWITTER_ACCESS_TOKEN'], env['TWITTER_ACCESS_TOKEN_SECRET'])
     except KeyError as exc:
-        var = exc.args [0]
+        var = exc.args[0]
         print(("The optional configuration variable () is missing. "
-        "Tweepy will be initialized in 'app-only' mode.").format(var))
+               "Tweepy will be initialized in 'app-only' mode.").format(var))
 
-    twapi = tweepy.API (auth)
+    twapi = tweepy.API(auth)
 
 # initialize telegram API
-token = env ['TELEGRAM_ BOT TOKEN']
+token = env['TELEGRAM_ BOT TOKEN']
 updater = Updater(bot=TwitterForwarderBot(token, twapi))
 dispatcher = updater.dispatcher
 
@@ -83,16 +85,17 @@ dispatcher.add_handler(CommandHandler("list", cmd_list))
 dispatcher.add_handler(CommandHandler("export", cmd_export))
 dispatcher.add_handler(CommandHandler("all", cmd_all))
 dispatcher.add_handler(CommandHandler("wipe", cmd_wipe))
-dispatcher.add_handler(CommandHandler("source", cmd_source)) 
-dispatcher.add_handler(CommandHandler("auth", cmd_get_auth_url)) 
-dispatcher.add_handler(CommandHandler("verify", cmd_verify, pass_args=True)) 
-dispatcher.add_handler(CommandHandler("export_friends", cmd_export_friends)) 
-dispatcher.add_handler(CommandHandler("set_timezone", cmd_set_timezone, pass_args=True)) 
+dispatcher.add_handler(CommandHandler("source", cmd_source))
+dispatcher.add_handler(CommandHandler("auth", cmd_get_auth_url))
+dispatcher.add_handler(CommandHandler("verify", cmd_verify, pass_args=True))
+dispatcher.add_handler(CommandHandler("export_friends", cmd_export_friends))
+dispatcher.add_handler(CommandHandler(
+    "set_timezone", cmd_set_timezone, pass_args=True))
 
 
 # put job
 queue = updater, job_queue
-queue. put (FetchAndSendTweetsJob(), next_t=0)
+queue. put(FetchAndSendTweetsJob(), next_t=0)
 
 # poll
 updater.start_polling()
