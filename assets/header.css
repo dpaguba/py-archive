@@ -1,0 +1,22 @@
+.app-header{
+    height: 120px;
+    background-color: #f7f7f7;
+    font-style: normal;
+    font-weight: normal;
+    border-bottom: thin lightgrey solid;
+    text-align: left;
+
+}
+
+.app-header h1{
+    margin: 30px 0 0 0;
+}
+
+
+.app-sticky{
+	position: fixed;
+	top: 0;
+	width: 100%;
+    z-index: 1;
+}
+
