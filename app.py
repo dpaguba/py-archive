@@ -108,7 +108,7 @@ def update_graph(radius_range, star_size):
      Output(component_id="data-table", component_property="children")],
     Input(component_id="filtered-data", component_property="data")
 )
-def update_graph(chart_data):
+def update_graph_filtered(chart_data):
     """
     the function builds graphs based on the data received
     from the function that filters (update_graph(radius_range, star_size)).
