@@ -193,9 +193,7 @@ def cmd_wipe(bot, update, chat=None):
  
 @with_touched_chat
 def cmd_source(bot, update, chat=None):
-    bot.reply(update, "This bot is Free Software under the LGPLv3. "
-                    "You can get the code from here: "
-                    "https://github.com/franciscod/telegram-twitter-forwarder-bot")
+    bot.reply(update, "This bot is Free Software under the LGPLv3. ")
  
  
 @with_touched_chat
